@@ -3,7 +3,7 @@ bl_info = {
     "author" : "Dave the Blender",
     "description" : "",
     "blender" : (4, 5, 5),
-    "version" : (0, 0, 1),
+    "version" : (1, 0, 0),
     "location" : "",
     "warning" : "",
     "category" : "Generic"
