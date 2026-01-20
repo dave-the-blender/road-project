@@ -1,10 +1,10 @@
 import bpy
-from .functions import import_assets, sync_gn_to_pg
+from .functions import _schedule_import, sync_gn_to_pg
 from bpy.app.handlers import persistent #type: ignore
 
 @persistent
 def on_load_post(_):
-    import_assets()
+    _schedule_import()
 
 _LAST_ACTIVE_NAME = None
 
@@ -24,6 +24,8 @@ def register():
     
     if depsgraph_handler not in bpy.app.handlers.depsgraph_update_post:
         bpy.app.handlers.depsgraph_update_post.append(depsgraph_handler)
+    
+    _schedule_import()
 
 def unregister():
     if on_load_post in bpy.app.handlers.load_post:

@@ -10,7 +10,7 @@ def import_assets():
         "DoublePostSign",
         "SinglePostSign",
         "GeneralSign",
-        "TextSign"
+        "TextSign",
         "Shapes",
         "Sign",
         "SignEngine",
@@ -59,6 +59,27 @@ def import_assets():
         if ng:
             ng.use_fake_user = True
     
+    for name in REQUIRED_MATERIALS:
+        mat = bpy.data.materials.get(name)
+        if mat:
+            mat.use_fake_user = True
+
+    for name in REQUIRED_FONTS:
+        fon = bpy.data.fonts.get(name)
+        if fon:
+            fon.use_fake_user = True
+
+def _schedule_import():
+    if not getattr(_schedule_import, "_queued", False):
+        _schedule_import._queued = True
+
+        def _run():
+            _schedule_import._queued = False
+            import_assets()
+            return None
+
+        bpy.app.timers.register(_run, first_interval=0.1)
+        
 def sync_gn_to_pg(context):
     """Syncs the values of the GN modifier with the Property Group, using the mapping
     Called when we change the selected object 
